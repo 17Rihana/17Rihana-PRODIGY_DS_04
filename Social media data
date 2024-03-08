@@ -1,0 +1,32 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import nltk
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+# Sample social media data
+social_media_data = [
+    "I love the new iPhone, it's amazing!",
+    "I'm so disappointed with the customer service from XYZ brand.",
+    "The movie was great, but the ending was terrible.",
+    "I can't wait to try out the new restaurant in town!",
+    "This product is a waste of money, I regret buying it."
+]
+
+# Create a DataFrame
+df = pd.DataFrame({"Text": social_media_data})
+
+# Initialize sentiment analyzer
+nltk.download('vader_lexicon')
+sid = SentimentIntensityAnalyzer()
+
+# Apply sentiment analysis
+df['Sentiment'] = df['Text'].apply(lambda x: sid.polarity_scores(x)['compound'])
+
+# Visualize sentiment
+plt.figure(figsize=(8, 6))
+plt.hist(df['Sentiment'], bins=10, color='skyblue', edgecolor='black')
+plt.title('Sentiment Distribution')
+plt.xlabel('Sentiment Score')
+plt.ylabel('Frequency')
+plt.grid(True)
+plt.show()
